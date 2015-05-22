@@ -2,8 +2,12 @@ import Debug.Trace
 
 trace' a = trace ("Tracing: " ++ show a) a
 
+-- Input size to start iterating and testing
+startInputSize = 10000000
 -- Maximum input size to test
-maxInputSize = 100000
+maxInputSize = 100000000
+-- How many to step through in the sample
+inputSizeStep = 10000
 
 -- The result of interest contains an input size, a batch size, and its
 -- corresponding number of parallel values
@@ -25,7 +29,7 @@ instance Show Result where
 main :: IO ()
 main = do
     -- Create a list up to the maximum input size
-    let inputSizes = take maxInputSize $ iterate (+ 1) 2
+    let inputSizes = take maxInputSize $ iterate (+ inputSizeStep) startInputSize
     -- Compute optimal batch size for each input size
     let results = map computeResults inputSizes
     -- Show the optimal result
